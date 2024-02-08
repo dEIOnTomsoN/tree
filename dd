@@ -1,4 +1,17 @@
+#!/bin/bash
 
+echo "Enter the directory to compress:"
+read directory
+
+echo "Enter the name for the ZIP file:"
+read zipfile
+
+if [ -d "$directory" ]; then
+    zip -r "$zipfile.zip" "$directory"
+    echo "Compression complete!"
+else
+    echo "Directory not found!"
+fi
 Print Fibonacci series
 read n
 a=0
