@@ -1,3 +1,20 @@
+
+Print Fibonacci series
+read n
+a=0
+b=1
+
+echo "The fibonacci Series is "
+
+for ((i=0;i<n;i++))
+do
+	echo -ne "$a\t"
+	c=$((a + b))
+	a=$b
+	b=$c
+done
+
+
 #!/bin/bash
 
 # Check if user provided a directory path
