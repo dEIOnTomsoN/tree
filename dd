@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Check if user provided a directory path
+if [ -z "$1" ]; then
+    echo "Usage: $0 <directory>"
+    exit 1
+fi
+
+# List all files recursively in the provided directory
+find "$1" -type f
