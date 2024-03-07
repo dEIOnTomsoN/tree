@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <string.h>
+#include <dirent.h>
+#include <sys/types.h>
+
+void listfiles(char *basepath) {
+    char path[1000];
+    struct dirent *dp;
+    DIR *dir = opendir(basepath);
+    if (!dir) {
+        return;
+    }
+    while ((dp = readdir(dir)) != NULL) {
+        if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0) {
+            printf("%s\n", dp->d_name);
+            strcpy(path, basepath);
+            strcat(path, "/");
+            strcat(path, dp->d_name);
+            // Check if it's a directory
+            DIR *subdir = opendir(path);
+            if (subdir) {
+                closedir(subdir);
+                printf("Directory: %s\n", path);
+                // Recursively list files in subdirectory
+                listfiles(path);
+            }
+        }
+    }
+    closedir(dir);
+}
+
+int main() {
+    listfiles("/path/to/directory");
+    return 0;
+}
