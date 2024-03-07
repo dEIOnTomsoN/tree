@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    int even_sum = 0;
+    int odd_sum = 0;
+    int i;
+
+    // Fork 4 child processes
+    for (i = 0; i < 4; i++) {
+        pid_t pid = fork();
+        if (pid < 0) {
+            fprintf(stderr, "Fork failed\n");
+            return 1;
+        } else if (pid == 0) {  // Child process
+            int j;
+            for (j = i * 250 + 1; j <= (i + 1) * 250; j++) {
+                if (j % 2 == 0) {
+                    even_sum += j;
+                } else {
+                    odd_sum += j;
+                }
+            }
+            printf("Child %d: Even sum: %d\n", i + 1, even_sum);
+            printf("Child %d: Odd sum: %d\n", i + 1, odd_sum);
+            return 0;
+        }
+    }
+
+    // Wait for all child processes to finish
+    for (i = 0; i < 4; i++) {
+        wait(NULL);
+    }
+
+    // Output total sums
+    printf("Total even sum: %d\n", even_sum);
+    printf("Total odd sum: %d\n", odd_sum);
+
+    return 0;
+}
